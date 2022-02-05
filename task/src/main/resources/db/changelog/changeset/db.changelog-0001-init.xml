@@ -18,7 +18,7 @@
             </column>
 
             <column name="salary" type="double precision">
-                <constraints unique="true" nullable="false"/>
+                <constraints unique="false" nullable="false"/>
             </column>
 
             <!--<column name="department_id" type="integer">
@@ -26,7 +26,7 @@
             </column>-->
 
             <column name="degree_id" type="integer">
-                <constraints unique="true" nullable="false"/>
+                <constraints unique="false" nullable="false"/>
             </column>
 
         </createTable>
