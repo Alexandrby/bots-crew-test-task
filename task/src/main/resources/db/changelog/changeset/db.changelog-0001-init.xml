@@ -7,9 +7,9 @@
 
     <changeSet id="0001-01-users" author="Alex.Siniov">
 
-        <!-- <createTable tableName="users">
+        <createTable tableName="lector">
 
-            <column name="user_id" type="varchar(255)">
+            <column name="uuid" type="varchar(255)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
@@ -17,118 +17,56 @@
                 <constraints unique="true" nullable="false"/>
             </column>
 
-            <column name="email" type="varchar(250)">
+            <column name="salary" type="double precision">
                 <constraints unique="true" nullable="false"/>
             </column>
 
-            <column name="role" type="varchar(150)">
-                <constraints nullable="true"/>
+            <column name="department_id" type="varchar(250)">
+                <constraints unique="true" nullable="false"/>
             </column>
 
-            <column name="rating" type="double precision">
-                <constraints nullable="true"/>
-            </column>
-
-            <column name="created_at" type="timestamp">
-                <constraints nullable="true"/>
-            </column>
-
-            <column name="updated_at" type="timestamp">
-                <constraints nullable="true"/>
+            <column name="degree_id" type="varchar(250)">
+                <constraints unique="true" nullable="false"/>
             </column>
 
         </createTable>
 
-        <createTable tableName="roles">
+        <addForeignKeyConstraint baseColumnNames="department_id"
+                                 baseTableName="lector"
+                                 constraintName="fk_lector_department_department_id"
+                                 referencedColumnNames="uuid"
+                                 referencedTableName="department"/>
 
-            <column name="role_id" type="integer">
+        <addForeignKeyConstraint baseColumnNames="degree_id"
+                                 baseTableName="lector"
+                                 constraintName="fk_lector_degree_degree_id"
+                                 referencedColumnNames="uuid"
+                                 referencedTableName="payment_method"/>
+
+        <createTable tableName="department">
+
+            <column name="uuid" type="varchar(250)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
-            <column name="role_name" type="varchar(250)">
+            <column name="name" type="varchar(250)">
                 <constraints nullable="false"/>
             </column>
 
         </createTable>
 
-        &lt;!&ndash;<createTable tableName="user_roles">
+        <createTable tableName="degree">
 
-            <column name="user_id" type="varchar(250)">
-                <constraints foreignKeyName="true" referencedTableName="users" />
+            <column name="uuid" type="varchar(250)">
+                <constraints primaryKey="true" nullable="false"/>
             </column>
 
-            <column name="role_id" type="integer">
-                <constraints foreignKeyName="true" referencedTableName="roles"/>
+            <column name="name" type="varchar(250)">
+                <constraints nullable="false"/>
             </column>
 
-        </createTable>&ndash;&gt;
-
-    </changeSet>-->
-
-<!--        <sql>
-            DROP TABLE IF EXISTS public.users;
-            create table if not exists users
-            (
-            user_id varchar(255) not null
-            constraint pk_users
-            primary key,
-            name varchar(250) not null
-            constraint users_name_key
-            unique,
-            email varchar(250) not null
-            constraint users_email_key
-            unique,
-            password varchar(250) not null,
-            rating double precision,
-            created_at timestamp,
-            updated_at timestamp,
-            active boolean,
-            activation_key varchar(255)
-            );
+        </createTable>
 
 
-            DROP TABLE IF EXISTS public.roles;
-            create table if not exists roles
-            (
-            id varchar(255) not null
-            constraint roles_pk
-            primary key,
-            name varchar(255) not null
-            );
-
-
-            DROP TABLE IF EXISTS public.users_roles;
-            create table if not exists users_roles
-            (
-            user_id varchar(255) not null
-            constraint users_roles_users_user_id_fk
-            references users
-            on update cascade on delete cascade,
-            role_id varchar(255) not null
-            constraint users_roles_roles_id_fk
-            references roles
-            );
-
-            DROP TABLE IF EXISTS public.permissions;
-            create table if not exists permissions
-            (
-            id varchar(255) not null
-            constraint permissions_pk
-            primary key,
-            name varchar(250)
-            );
-
-            DROP TABLE IF EXISTS public.roles_permissions;
-            create table if not exists roles_permissions
-            (
-            role_id       varchar(255) not null
-            constraint roles_permissions_roles_id_fk
-            references roles,
-            permission_id varchar(255)
-            constraint roles_permissions_permissions_id_fk
-            references permissions
-            );
-
-        </sql>-->
     </changeSet>
 </databaseChangeLog>
