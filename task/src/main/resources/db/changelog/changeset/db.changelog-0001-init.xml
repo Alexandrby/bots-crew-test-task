@@ -5,11 +5,11 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="0001-01-users" author="Alex.Siniov">
+    <changeSet id="0001-01-users" author="Alexandr4.Sinev">
 
         <createTable tableName="lector">
 
-            <column name="uuid" type="varchar(255)">
+            <column name="id" type="integer">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
@@ -21,31 +21,19 @@
                 <constraints unique="true" nullable="false"/>
             </column>
 
-            <column name="department_id" type="varchar(250)">
+            <!--<column name="department_id" type="integer">
                 <constraints unique="true" nullable="false"/>
-            </column>
+            </column>-->
 
-            <column name="degree_id" type="varchar(250)">
+            <column name="degree_id" type="integer">
                 <constraints unique="true" nullable="false"/>
             </column>
 
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="department_id"
-                                 baseTableName="lector"
-                                 constraintName="fk_lector_department_department_id"
-                                 referencedColumnNames="uuid"
-                                 referencedTableName="department"/>
-
-        <addForeignKeyConstraint baseColumnNames="degree_id"
-                                 baseTableName="lector"
-                                 constraintName="fk_lector_degree_degree_id"
-                                 referencedColumnNames="uuid"
-                                 referencedTableName="payment_method"/>
-
         <createTable tableName="department">
 
-            <column name="uuid" type="varchar(250)">
+            <column name="id" type="integer">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
@@ -57,15 +45,27 @@
 
         <createTable tableName="degree">
 
-            <column name="uuid" type="varchar(250)">
+            <column name="id" type="integer">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
-            <column name="name" type="varchar(250)">
+            <column name="title" type="varchar(250)">
                 <constraints nullable="false"/>
             </column>
 
         </createTable>
+
+       <!-- <addForeignKeyConstraint baseColumnNames="department_id"
+                                 baseTableName="lector"
+                                 constraintName="fk_lector_department_id"
+                                 referencedColumnNames="department_id"
+                                 referencedTableName="department"/>-->
+
+        <addForeignKeyConstraint baseColumnNames="degree_id"
+                                 baseTableName="lector"
+                                 constraintName="fk_lector_degree_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="degree"/>
 
 
     </changeSet>

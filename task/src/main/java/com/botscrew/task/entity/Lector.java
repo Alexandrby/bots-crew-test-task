@@ -19,10 +19,8 @@ import java.util.Set;
 public class Lector {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "uuid", nullable = false, columnDefinition = "BINARY(16)")
-    private String uuid;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -34,8 +32,8 @@ public class Lector {
     @JoinTable(name = "department", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "id"))
     private Set<Department> departments;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", unique = true)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
     private Degree degree;
 
 }
