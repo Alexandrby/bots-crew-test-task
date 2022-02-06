@@ -1,6 +1,5 @@
 package com.botscrew.task.view;
 
-import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;

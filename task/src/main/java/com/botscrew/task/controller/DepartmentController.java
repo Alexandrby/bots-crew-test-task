@@ -4,7 +4,6 @@ import com.botscrew.task.service.DepartmentService;
 import com.botscrew.task.view.DepartmentView;
 import com.botscrew.task.view.MainView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,15 +22,24 @@ public class DepartmentController {
             case 1:
                 getHeadOfDepartment();
                 break;
+            case 2:
+                getDepartmentStatistics();
+                break;
 
         }
     }
 
-    public void getHeadOfDepartment() {
+    private void getHeadOfDepartment() {
         String nameOfDepartment = departmentView.getNameOfDepartment();
         departmentService.getHeadOfDepartment(nameOfDepartment);
         mainView.executeChoice();
 
+    }
+
+    private void getDepartmentStatistics() {
+        String nameOfDepartment = departmentView.getNameOfDepartment();
+        departmentService.getDepartmentStatistics (nameOfDepartment);
+        mainView.executeChoice();
     }
 
 
