@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Entity
@@ -22,6 +23,10 @@ public class Degree {
 
     @Column(name = "title")
     private String title;
+
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinTable(name = "lector_departments", joinColumns = @JoinColumn(name = "lector_id"), inverseJoinColumns = @JoinColumn(name = "id"))
+    private Set<Lector> departments;
 
 
 }

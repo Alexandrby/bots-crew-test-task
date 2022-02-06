@@ -28,12 +28,10 @@ public class Lector {
     @Column(name = "salary")
     private Double salary;
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinTable(name = "department", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "id"))
-    private Set<Department> departments;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "lector_departments", joinColumns = @JoinColumn(name = "lector_id", referencedColumnName = "id"))
+    @Column(name = "department_id")
+    private Set<String> departments;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
-    private Degree degree;
 
 }

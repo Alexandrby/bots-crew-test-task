@@ -1,72 +1,69 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-<databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="0001-01-users" author="Alexandr.Sinev">
 
-    <changeSet id="0001-01-users" author="Alexandr4.Sinev">
-
-        <createTable tableName="lector">
-
+        <createTable tableName="department">
             <column name="id" type="integer">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-
             <column name="name" type="varchar(250)">
-                <constraints unique="true" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
+        </createTable>
 
+        <createTable tableName="lector">
+            <column name="id" type="integer">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(250)">
+                <constraints unique="false" nullable="false"/>
+            </column>
             <column name="salary" type="double precision">
                 <constraints unique="false" nullable="false"/>
             </column>
-
-            <!--<column name="department_id" type="integer">
-                <constraints unique="true" nullable="false"/>
-            </column>-->
-
-            <column name="degree_id" type="integer">
-                <constraints unique="false" nullable="false"/>
-            </column>
-
-        </createTable>
-
-        <createTable tableName="department">
-
-            <column name="id" type="integer">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-
-            <column name="name" type="varchar(250)">
-                <constraints nullable="false"/>
-            </column>
-
         </createTable>
 
         <createTable tableName="degree">
-
             <column name="id" type="integer">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-
             <column name="title" type="varchar(250)">
                 <constraints nullable="false"/>
             </column>
-
         </createTable>
 
-       <!-- <addForeignKeyConstraint baseColumnNames="department_id"
-                                 baseTableName="lector"
-                                 constraintName="fk_lector_department_id"
-                                 referencedColumnNames="department_id"
-                                 referencedTableName="department"/>-->
+        <createTable tableName="lector_departments">
+            <column name="lector_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="department_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="degree_id"
-                                 baseTableName="lector"
-                                 constraintName="fk_lector_degree_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="degree"/>
+        <addPrimaryKey columnNames="lector_id, department_id" tableName="lector_departments"/>
+        <addForeignKeyConstraint baseColumnNames="lector_id" baseTableName="lector_departments"
+                                 constraintName="fk_lector_id" referencedColumnNames="id" referencedTableName="lector"/>
+        <addForeignKeyConstraint baseColumnNames="department_id" baseTableName="lector_departments"
+                                 constraintName="fk_department_id" referencedColumnNames="id"
+                                 referencedTableName="department"/>
 
+        <createTable tableName="degree_lectors">
+            <column name="degree_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lector_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
 
+        <addPrimaryKey columnNames="degree_id, lector_id" tableName="degree_lectors"/>
+        <addForeignKeyConstraint baseColumnNames="degree_id" baseTableName="degree_lectors"
+                                 constraintName="fk_degree_id" referencedColumnNames="id" referencedTableName="degree"/>
+        <addForeignKeyConstraint baseColumnNames="lector_id" baseTableName="degree_lectors"
+                                 constraintName="fk_lector_id" referencedColumnNames="id" referencedTableName="lector"/>
     </changeSet>
+
 </databaseChangeLog>
