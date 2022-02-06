@@ -11,6 +11,9 @@
             <column name="name" type="varchar(250)">
                 <constraints nullable="false"/>
             </column>
+            <column name="head_of_department_id" type="integer">
+                <constraints unique="true" nullable="false"/>
+            </column>
         </createTable>
 
         <createTable tableName="lector">

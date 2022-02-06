@@ -7,14 +7,14 @@ INSERT INTO public.degree (id, title)
 VALUES (3, 'PROFESSOR');
 
 --  TABLE Department
-INSERT INTO public.department (id, name)
-VALUES (1, 'TO');
-INSERT INTO public.department (id, name)
-VALUES (2, 'MO');
-INSERT INTO public.department (id, name)
-VALUES (3, 'EKO');
-INSERT INTO public.department (id, name)
-VALUES (4, 'MFU');
+INSERT INTO public.department (id, name, head_of_department_id)
+VALUES (1, 'TO', 1);
+INSERT INTO public.department (id, name, head_of_department_id )
+VALUES (2, 'MO', 2);
+INSERT INTO public.department (id, name, head_of_department_id)
+VALUES (3, 'EKO', 3);
+INSERT INTO public.department (id, name, head_of_department_id)
+VALUES (4, 'MFU', 5);
 
 --  TABLE Lectors
 INSERT INTO public.lector (id, name, salary)

@@ -24,4 +24,7 @@ public class Department {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "head_of_department_id")
+    private Long headOfDepartmentId;
+
 }
