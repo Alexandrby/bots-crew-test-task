@@ -5,12 +5,13 @@ import com.botscrew.task.entity.Lector;
 import com.botscrew.task.repository.DepartmentRepository;
 import com.botscrew.task.repository.LectorRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -19,7 +20,6 @@ public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
     private final LectorRepository lectorRepository;
-
     public void getHeadOfDepartment(String nameOfDepartment) {
 
         Optional<Department> department = Optional.ofNullable(departmentRepository.getDepartmentsByName(nameOfDepartment).orElseThrow(() -> new RuntimeException("Department has not been found")));
@@ -28,10 +28,44 @@ public class DepartmentService {
 
     }
 
-    public void getDepartmentStatistics (String nameOfDepartment){
+    public void getDepartmentStatistics(String nameOfDepartment) {
         Optional<Department> department = Optional.ofNullable(departmentRepository.getDepartmentsByName(nameOfDepartment).orElseThrow(() -> new RuntimeException("Department has not been found")));
         Long idOfDepartment = department.get().getId();
-        List<Lector> lectorsFromDepartment =
+        departmentRepository.findAllLectorsByIdDepartment(idOfDepartment)
+                .stream()
+                .map(lectorRepository::findById)
+                .map(Optional::get)
+                .collect(Collectors.groupingBy(d -> d.getDegree().getTitle(), Collectors.counting()))
+                .forEach((key, value) -> System.out.println(key + " : " + value));
+
+    }
+
+    public void getAverageSalary(String nameOfDepartment) {
+        Optional<Department> department = Optional.ofNullable(departmentRepository.getDepartmentsByName(nameOfDepartment).orElseThrow(() -> new RuntimeException("Department has not been found")));
+        Long idOfDepartment = department.get().getId();
+        Double averageSalary = departmentRepository.findAllLectorsByIdDepartment(idOfDepartment)
+                .stream()
+                .map(lectorRepository::findById)
+                .map(Optional::get)
+                .mapToDouble(Lector::getSalary).average().getAsDouble();
+        System.out.println(nameOfDepartment + " : " + averageSalary);
+
+    }
+
+    public void getCountEmployee(String nameOfDepartment) {
+        Optional<Department> department = Optional.ofNullable(departmentRepository.getDepartmentsByName(nameOfDepartment).orElseThrow(() -> new RuntimeException("Department has not been found")));
+        Long idOfDepartment = department.get().getId();
+        Integer countEmployee = departmentRepository.findAllLectorsByIdDepartment(idOfDepartment)
+                .size();
+        System.out.println(nameOfDepartment + " : " + countEmployee);
+    }
+
+    public void findAllLectorsByWord(String word) {
+        lectorRepository.findByNameContaining(word)
+                .stream()
+                .map(Lector::getName)
+                .forEach(System.out::println);
+
     }
 
 }

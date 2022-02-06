@@ -4,8 +4,10 @@ import com.botscrew.task.entity.Lector;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
+
 @Repository
 public interface LectorRepository extends JpaRepository<Lector, Long> {
 
-        Lector findAllLectorsByIdDepartment ()
+    Collection<Lector> findByNameContaining(String name);
 }

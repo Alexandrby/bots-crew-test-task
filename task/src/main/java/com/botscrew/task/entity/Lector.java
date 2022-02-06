@@ -33,5 +33,8 @@ public class Lector {
     @Column(name = "department_id")
     private Set<String> departments;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinTable(name = "degree_lectors", joinColumns = @JoinColumn(name = "lector_id"), inverseJoinColumns = @JoinColumn(name = "degree_id"))
+    private Degree degree;
 
 }

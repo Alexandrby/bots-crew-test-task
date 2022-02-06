@@ -25,6 +25,12 @@ public class DepartmentController {
             case 2:
                 getDepartmentStatistics();
                 break;
+            case 3:
+                getAverageSalary();
+                break;
+            case 5:
+                findAllLectorsByWord();
+                break;
 
         }
     }
@@ -39,6 +45,18 @@ public class DepartmentController {
     private void getDepartmentStatistics() {
         String nameOfDepartment = departmentView.getNameOfDepartment();
         departmentService.getDepartmentStatistics (nameOfDepartment);
+        mainView.executeChoice();
+    }
+
+    private void getAverageSalary() {
+        String nameOfDepartment = departmentView.getNameOfDepartment();
+        departmentService.getAverageSalary (nameOfDepartment);
+        mainView.executeChoice();
+    }
+
+    private void findAllLectorsByWord() {
+        String nameOfDepartment = departmentView.getNameOfDepartment();
+        departmentService.findAllLectorsByWord (nameOfDepartment);
         mainView.executeChoice();
     }
 
