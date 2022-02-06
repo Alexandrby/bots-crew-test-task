@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +18,8 @@ public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
     private final LectorRepository lectorRepository;
+
+
     public void getHeadOfDepartment(String nameOfDepartment) {
 
         Optional<Department> department = Optional.ofNullable(departmentRepository.getDepartmentsByName(nameOfDepartment).orElseThrow(() -> new RuntimeException("Department has not been found")));
@@ -37,7 +37,6 @@ public class DepartmentService {
                 .map(Optional::get)
                 .collect(Collectors.groupingBy(d -> d.getDegree().getTitle(), Collectors.counting()))
                 .forEach((key, value) -> System.out.println(key + " : " + value));
-
     }
 
     public void getAverageSalary(String nameOfDepartment) {
@@ -49,7 +48,6 @@ public class DepartmentService {
                 .map(Optional::get)
                 .mapToDouble(Lector::getSalary).average().getAsDouble();
         System.out.println(nameOfDepartment + " : " + averageSalary);
-
     }
 
     public void getCountEmployee(String nameOfDepartment) {
@@ -65,7 +63,6 @@ public class DepartmentService {
                 .stream()
                 .map(Lector::getName)
                 .forEach(System.out::println);
-
     }
 
 }

@@ -28,36 +28,43 @@ public class DepartmentController {
             case 3:
                 getAverageSalary();
                 break;
+            case 4:
+                getCountOfEmployee();
+                break;
             case 5:
                 findAllLectorsByWord();
                 break;
-
         }
     }
 
     private void getHeadOfDepartment() {
         String nameOfDepartment = departmentView.getNameOfDepartment();
         departmentService.getHeadOfDepartment(nameOfDepartment);
-        mainView.executeChoice();
-
+        execute();
     }
 
     private void getDepartmentStatistics() {
         String nameOfDepartment = departmentView.getNameOfDepartment();
-        departmentService.getDepartmentStatistics (nameOfDepartment);
-        mainView.executeChoice();
+        departmentService.getDepartmentStatistics(nameOfDepartment);
+        execute();
     }
 
     private void getAverageSalary() {
         String nameOfDepartment = departmentView.getNameOfDepartment();
-        departmentService.getAverageSalary (nameOfDepartment);
-        mainView.executeChoice();
+        departmentService.getAverageSalary(nameOfDepartment);
+        execute();
+    }
+
+    private void getCountOfEmployee() {
+        String nameOfDepartment = departmentView.getNameOfDepartment();
+        departmentService.findAllLectorsByWord(nameOfDepartment);
+        execute();
     }
 
     private void findAllLectorsByWord() {
-        String nameOfDepartment = departmentView.getNameOfDepartment();
-        departmentService.findAllLectorsByWord (nameOfDepartment);
-        mainView.executeChoice();
+        String nameOfDepartment = departmentView.getWordForFind();
+        departmentService.findAllLectorsByWord(nameOfDepartment);
+        execute();
     }
 
 

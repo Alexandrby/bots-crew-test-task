@@ -9,5 +9,5 @@ import java.util.Collection;
 @Repository
 public interface LectorRepository extends JpaRepository<Lector, Long> {
 
-    Collection<Lector> findByNameContaining(String name);
+    Collection<Lector> findByNameContaining(String word);
 }
