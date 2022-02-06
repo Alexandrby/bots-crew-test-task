@@ -34,37 +34,65 @@ public class DepartmentController {
             case 5:
                 findAllLectorsByWord();
                 break;
+            default:
+                System.out.println("Wrong number, pleas  choose form 1 to 5");
+                execute();
         }
     }
 
     private void getHeadOfDepartment() {
-        String nameOfDepartment = departmentView.getNameOfDepartment();
-        departmentService.getHeadOfDepartment(nameOfDepartment);
-        execute();
+        try {
+            String nameOfDepartment = departmentView.getNameOfDepartment();
+            departmentService.getHeadOfDepartment(nameOfDepartment);
+            execute();
+        } catch (RuntimeException exception) {
+            System.err.println(exception.getMessage());
+            getHeadOfDepartment();
+        }
     }
 
     private void getDepartmentStatistics() {
-        String nameOfDepartment = departmentView.getNameOfDepartment();
-        departmentService.getDepartmentStatistics(nameOfDepartment);
-        execute();
+        try {
+            String nameOfDepartment = departmentView.getNameOfDepartment();
+            departmentService.getDepartmentStatistics(nameOfDepartment);
+            execute();
+        } catch (RuntimeException exception) {
+            System.err.println(exception.getMessage());
+            getHeadOfDepartment();
+        }
     }
 
     private void getAverageSalary() {
-        String nameOfDepartment = departmentView.getNameOfDepartment();
-        departmentService.getAverageSalary(nameOfDepartment);
-        execute();
+        try {
+            String nameOfDepartment = departmentView.getNameOfDepartment();
+            departmentService.getAverageSalary(nameOfDepartment);
+            execute();
+        } catch (RuntimeException exception) {
+            System.err.println(exception.getMessage());
+            getHeadOfDepartment();
+        }
     }
 
     private void getCountOfEmployee() {
-        String nameOfDepartment = departmentView.getNameOfDepartment();
-        departmentService.getCountEmployee(nameOfDepartment);
-        execute();
+        try {
+            String nameOfDepartment = departmentView.getNameOfDepartment();
+            departmentService.getCountEmployee(nameOfDepartment);
+            execute();
+        } catch (RuntimeException exception) {
+            System.err.println(exception.getMessage());
+            getHeadOfDepartment();
+        }
     }
 
     private void findAllLectorsByWord() {
-        String nameOfDepartment = departmentView.getWordForFind();
-        departmentService.findAllLectorsByWord(nameOfDepartment);
-        execute();
+        try {
+            String nameOfDepartment = departmentView.getWordForFind();
+            departmentService.findAllLectorsByWord(nameOfDepartment);
+            execute();
+        } catch (RuntimeException exception) {
+            System.err.println(exception.getMessage());
+            getHeadOfDepartment();
+        }
     }
 
 }

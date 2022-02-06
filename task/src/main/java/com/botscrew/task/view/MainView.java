@@ -7,7 +7,7 @@ import java.util.Scanner;
 @Component
 public class MainView {
 
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     public int executeChoice() {
         System.out.println("Choose one of the offered number: ");
