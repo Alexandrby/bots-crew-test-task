@@ -1,32 +1,51 @@
 package com.botscrew.task.service;
 
+import com.botscrew.task.entity.Department;
+import com.botscrew.task.entity.Lector;
 import com.botscrew.task.repository.DepartmentRepository;
 import com.botscrew.task.repository.LectorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
 
 @Slf4j
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class ServiceTest {
 
-    private final DepartmentRepository departmentRepository = mock(DepartmentRepository.class);
-    private final LectorRepository lectorRepository = mock(LectorRepository.class);
-    private  DepartmentService departmentService = getService();
-
-    public DepartmentService getService() {
-        if (departmentService == null) {
-            departmentService = new DepartmentService(departmentRepository, lectorRepository);
-        }
-        return departmentService;
-    }
-
+    @Mock
+    private DepartmentRepository departmentRepository;
+    @Mock
+    private LectorRepository lectorRepository;
+    @InjectMocks
+    private DepartmentService departmentService;
 
     @Test
-    public void shouldGetHeadOfDepartment(String nameOfDepartment){
-        when()
+    void shouldGetHeadOfDepartment() {
+        // GIVEN
+        String departMentName = "test";
+        String name = "name";
+        Long id = 1L;
+        Optional<Department> optionalDepartment = Optional.of(new Department(id, "name", 1L));
+        Lector lector = mock(Lector.class);
+
+        // WHEN
+        when(departmentRepository.getDepartmentsByName(departMentName)).thenReturn(optionalDepartment);
+        when(lectorRepository.getById(id)).thenReturn(lector);
+        departmentService.getHeadOfDepartment(departMentName);
+
+        // THEN
+        verify(departmentRepository, times(1)).getDepartmentsByName(departMentName);
+        verify(lectorRepository, times(1)).getById(optionalDepartment.get()
+                .getHeadOfDepartmentId());
+        verifyNoMoreInteractions(departmentRepository);
+        verifyNoMoreInteractions(lectorRepository);
     }
+
 }
