@@ -23,39 +23,56 @@ public class DepartmentService {
     public void getHeadOfDepartment(String nameOfDepartment) {
 
         Optional<Department> department = Optional.ofNullable(departmentRepository.getDepartmentsByName(nameOfDepartment).orElseThrow(() -> new RuntimeException("Department has not been found")));
-        Long idHeadOfDepartment = department.get().getHeadOfDepartmentId();
+        Long idHeadOfDepartment = department
+                .stream()
+                .findFirst()
+                .map(Department::getHeadOfDepartmentId)
+                .orElseThrow(() -> new RuntimeException("Department has not been found"));
         System.out.println("Head of " + nameOfDepartment + " " + lectorRepository.getById(idHeadOfDepartment).getName() + "\n");
 
     }
 
     public void getDepartmentStatistics(String nameOfDepartment) {
         Optional<Department> department = Optional.ofNullable(departmentRepository.getDepartmentsByName(nameOfDepartment).orElseThrow(() -> new RuntimeException("Department has not been found")));
-        Long idOfDepartment = department.get().getId();
+        Long idOfDepartment = department
+                .stream()
+                .findFirst()
+                .map(Department::getId)
+                .orElseThrow(() -> new RuntimeException("Department has not been found"));
         departmentRepository.findAllLectorsByIdDepartment(idOfDepartment)
                 .stream()
                 .map(lectorRepository::findById)
                 .map(Optional::get)
                 .collect(Collectors.groupingBy(d -> d.getDegree().getTitle(), Collectors.counting()))
-                .forEach((key, value) -> System.out.println(key + " : " + value));
+                .forEach((key, value) -> System.out.println(key + " - " + value));
     }
 
     public void getAverageSalary(String nameOfDepartment) {
         Optional<Department> department = Optional.ofNullable(departmentRepository.getDepartmentsByName(nameOfDepartment).orElseThrow(() -> new RuntimeException("Department has not been found")));
-        Long idOfDepartment = department.get().getId();
+        Long idOfDepartment = department
+                .stream()
+                .findFirst()
+                .map(Department::getId)
+                .orElseThrow(() -> new RuntimeException("Department has not been found"));
+
         Double averageSalary = departmentRepository.findAllLectorsByIdDepartment(idOfDepartment)
                 .stream()
                 .map(lectorRepository::findById)
                 .map(Optional::get)
                 .mapToDouble(Lector::getSalary).average().getAsDouble();
-        System.out.println(nameOfDepartment + " : " + averageSalary);
+        System.out.println("The average salary of " + nameOfDepartment + " is " + averageSalary);
     }
 
     public void getCountEmployee(String nameOfDepartment) {
         Optional<Department> department = Optional.ofNullable(departmentRepository.getDepartmentsByName(nameOfDepartment).orElseThrow(() -> new RuntimeException("Department has not been found")));
-        Long idOfDepartment = department.get().getId();
+        Long idOfDepartment = department
+                .stream()
+                .findFirst()
+                .map(Department::getId)
+                .orElseThrow(() -> new RuntimeException("Department has not been found"));
         Integer countEmployee = departmentRepository.findAllLectorsByIdDepartment(idOfDepartment)
                 .size();
-        System.out.println(nameOfDepartment + " : " + countEmployee);
+        System.out.println(countEmployee);
     }
 
     public void findAllLectorsByWord(String word) {

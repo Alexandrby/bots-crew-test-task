@@ -57,7 +57,7 @@ public class DepartmentController {
 
     private void getCountOfEmployee() {
         String nameOfDepartment = departmentView.getNameOfDepartment();
-        departmentService.findAllLectorsByWord(nameOfDepartment);
+        departmentService.getCountEmployee(nameOfDepartment);
         execute();
     }
 
@@ -66,6 +66,5 @@ public class DepartmentController {
         departmentService.findAllLectorsByWord(nameOfDepartment);
         execute();
     }
-
 
 }
