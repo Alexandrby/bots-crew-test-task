@@ -35,7 +35,7 @@ public class DepartmentController {
                 findAllLectorsByWord();
                 break;
             default:
-                System.out.println("Wrong number, pleas  choose form 1 to 5");
+                System.err.println("Invalid number, please select from 1 to 5");
                 execute();
         }
     }
@@ -94,5 +94,4 @@ public class DepartmentController {
             getHeadOfDepartment();
         }
     }
-
 }

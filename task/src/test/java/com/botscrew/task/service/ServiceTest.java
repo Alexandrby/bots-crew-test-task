@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -53,11 +52,12 @@ public class ServiceTest {
 
     @Test
     void shouldGetDepartmentStatisticsTest() {
+        // GIVEN
         String departmentName = "test";
         Long id = 1L;
         Optional<Department> optionalDepartment = Optional.of(new Department(id, "name", 1L));
         Lector lector = createLector(1L);
-        Set <Long> lectors = Set.of(1L,2L);
+        Set<Long> lectors = Set.of(1L, 2L);
 
         // WHEN
         when(departmentRepository.getDepartmentsByName(departmentName)).thenReturn(optionalDepartment);
@@ -66,10 +66,30 @@ public class ServiceTest {
 
         //THEN
         departmentService.getDepartmentStatistics(departmentName);
-        verify(departmentRepository ).getDepartmentsByName(departmentName);
-        verify(departmentRepository ).findAllLectorsByIdDepartment(id);
+        verify(departmentRepository).getDepartmentsByName(departmentName);
+        verify(departmentRepository).findAllLectorsByIdDepartment(id);
         verify(lectorRepository, times(2)).findById(anyLong());
+    }
 
+    @Test
+    void shouldGetAverageSalaryTest() {
+        // GIVEN
+        String departmentName = "test";
+        Long id = 1L;
+        Optional<Department> optionalDepartment = Optional.of(new Department(id, "name", 1L));
+        Lector lector = createLector(1L);
+        Set<Long> lectors = Set.of(1L, 2L);
+
+        // WHEN
+        when(departmentRepository.getDepartmentsByName(departmentName)).thenReturn(optionalDepartment);
+        when(departmentRepository.findAllLectorsByIdDepartment(id)).thenReturn(lectors);
+        when(lectorRepository.findById(anyLong())).thenReturn(Optional.ofNullable(lector));
+
+        //THEN
+        departmentService.getAverageSalary(departmentName);
+        verify(departmentRepository).getDepartmentsByName(departmentName);
+        verify(departmentRepository).findAllLectorsByIdDepartment(id);
+        verify(lectorRepository, times(2)).findById(anyLong());
     }
 
     @Test
@@ -78,23 +98,41 @@ public class ServiceTest {
         String departmentName = "test";
         Long id = 1L;
         Optional<Department> optionalDepartment = Optional.of(new Department(id, "name", 1L));
-        Lector lector = mock(Lector.class);
-        Set <Long> lectors = mock(Set.class);
+        Set<Long> lectors = Set.of(1L, 2L);
 
         // WHEN
         when(departmentRepository.getDepartmentsByName(departmentName)).thenReturn(optionalDepartment);
         when(departmentRepository.findAllLectorsByIdDepartment(id)).thenReturn(lectors);
 
+        //THEN
+        departmentService.getCountEmployee(departmentName);
+        verify(departmentRepository).getDepartmentsByName(departmentName);
+        verify(departmentRepository).findAllLectorsByIdDepartment(id);
     }
 
-    private Lector createLector(Long id){
-       return  Lector.builder()
+    @Test
+    void shouldFindAllLectorsByWordTest() {
+        // GIVEN
+        String word = "ван";
+        Lector lector = createLector(1L);
+        Lector lector2 = createLector(2L);
+        Set<Lector> lectors = Set.of(lector, lector2);
+
+        // WHEN
+        when(lectorRepository.findByNameContaining(word)).thenReturn(lectors);
+
+        //THEN
+        departmentService.findAllLectorsByWord(word);
+        verify(lectorRepository).findByNameContaining(word);
+    }
+
+    private Lector createLector(Long id) {
+        return Lector.builder()
                 .id(id)
                 .name("Иванов Иван Иваныч")
                 .salary(435.0)
                 .departments(Set.of("TO"))
-                .degree(new Degree(1l,"ASSISTANS"))
+                .degree(new Degree(1l, "ASSISTANS"))
                 .build();
     }
-
 }

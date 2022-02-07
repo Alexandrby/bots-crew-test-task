@@ -29,7 +29,6 @@ public class DepartmentService {
                 .map(Department::getHeadOfDepartmentId)
                 .orElseThrow(() -> new RuntimeException("Department has not been found"));
         System.out.println("Head of " + nameOfDepartment + " " + lectorRepository.getById(idHeadOfDepartment).getName() + "\n");
-
     }
 
     public void getDepartmentStatistics(String nameOfDepartment) {
@@ -44,7 +43,7 @@ public class DepartmentService {
                 .map(lectorRepository::findById)
                 .map(Optional::get)
                 .collect(Collectors.groupingBy(d -> d.getDegree().getTitle(), Collectors.counting()))
-                .forEach((key, value) -> System.out.println(key + " - " + value));
+                .forEach((key, value) -> System.out.println(key + " - " + value + "\n"));
     }
 
     public void getAverageSalary(String nameOfDepartment) {
@@ -60,7 +59,7 @@ public class DepartmentService {
                 .map(lectorRepository::findById)
                 .map(Optional::get)
                 .mapToDouble(Lector::getSalary).average().getAsDouble();
-        System.out.println("The average salary of " + nameOfDepartment + " is " + averageSalary);
+        System.out.println("The average salary of " + nameOfDepartment + " is " + averageSalary + "\n");
     }
 
     public void getCountEmployee(String nameOfDepartment) {
@@ -81,6 +80,5 @@ public class DepartmentService {
                 .map(Lector::getName)
                 .forEach(System.out::println);
     }
-
 }
 
